@@ -14,7 +14,10 @@ app.get("/blogs", (req, res) => {
 });
 
 app.get("/categories", (req, res) => {
-  res.render("categorie");
+  res.render("categorie", {
+    name: "manish",
+    address: "Sankhuwasabha, Bihibare",
+  });
 });
 
 app.use(express.static("public/css/"));
