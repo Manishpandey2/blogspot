@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BlogSpot Home</title>
+  <link rel="stylesheet" href="home.css">
+
+  
+</head>
+
+<body>
+
+  <!-- Navbar -->
+
+<%- include("./components/navbar") %>
+
+  <!-- Hero Section -->
+
+  <section class="hero">
+
+    <div class="hero-text">
+      <h1>Share Your <span>Stories</span> With The World</h1>
+
+      <p>
+        Create, publish, and explore amazing blogs from writers around the globe.
+        Start your blogging journey today with BlogSpot.
+      </p>
+
+      <div class="hero-btns">
+        <a href="#" class="primary-btn">Get Started</a>
+        <a href="#" class="secondary-btn">Explore Blogs</a>
+      </div>
+    </div>
+
+    <div class="hero-image">
+      <img
+        src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=1200&auto=format&fit=crop"
+        alt="Blog Image"
+      />
+    </div>
+
+  </section>
+
+  <!-- Blog Section -->
+
+  <section class="blogs">
+
+    <h2 class="section-title">Latest Blogs</h2>
+
+    <div class="blog-container">
+
+      <div class="blog-card">
+        <img
+          src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop"
+          alt=""
+        />
+
+        <div class="blog-content">
+          <h3>Modern Web Development</h3>
+
+          <p>
+            Learn the latest trends and technologies used in modern frontend and backend development.
+          </p>
+
+          <a href="#" class="read-more">Read More →</a>
+        </div>
+      </div>
+
+      <div class="blog-card">
+        <img
+          src="https://images.unsplash.com/photo-1455390582262-044cdead277a?q=80&w=1200&auto=format&fit=crop"
+          alt=""
+        />
+
+        <div class="blog-content">
+          <h3>Travel Around The World</h3>
+
+          <p>
+            Discover beautiful places, travel experiences, and tips from expert travelers.
+          </p>
+
+          <a href="#" class="read-more">Read More →</a>
+        </div>
+      </div>
+
+      <div class="blog-card">
+        <img
+          src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1200&auto=format&fit=crop"
+          alt=""
+        />
+
+        <div class="blog-content">
+          <h3>Programming Tips</h3>
+
+          <p>
+            Improve your coding skills with useful programming tricks and best practices.
+          </p>
+
+          <a href="#" class="read-more">Read More →</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+
+  <footer>
+    <p>© 2026 BlogSpot. All Rights Reserved.</p>
+  </footer>
+
+</body>
+</html>
