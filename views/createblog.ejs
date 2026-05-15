@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Create Blog</title>
+    <link rel="stylesheet" href="createblog.css">
+    <link rel="stylesheet" href="home.css">
+  
+</head>
+
+<body>
+    <%- include("./components/navbar") %>   
+
+  <div class="container">
+
+    <h1>Create Blog</h1>
+
+    <form action="/createblog" method="POST">
+
+      <!-- Title -->
+
+      <div class="form-group">
+        <label for="title">Blog Title</label>
+
+        <input
+          type="text"
+          id="title"
+          name="title"
+          placeholder="Enter blog title"
+          required
+        />
+      </div>
+
+      <!-- Subtitle -->
+
+      <div class="form-group">
+        <label for="subtitle">Subtitle</label>
+
+        <input
+          type="text"
+          id="subtitle"
+          name="subtitle"
+          placeholder="Enter blog subtitle"
+          required
+        />
+      </div>
+
+      <!-- Description -->
+
+      <div class="form-group">
+        <label for="description">Description</label>
+
+        <textarea
+          id="description"
+          name="description"
+          placeholder="Write your blog description..."
+          required
+        ></textarea>
+      </div>
+
+      <!-- Button -->
+
+      <button type="submit" class="submit-btn">
+        Publish Blog
+      </button>
+
+    </form>
+
+  </div>
+
+</body>
+</html>

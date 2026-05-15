@@ -13,11 +13,8 @@ app.get("/blogs", (req, res) => {
   res.render("blogs");
 });
 
-app.get("/categories", (req, res) => {
-  res.render("categorie", {
-    name: "manish",
-    address: "Sankhuwasabha, Bihibare",
-  });
+app.get("/createblog", (req, res) => {
+  res.render("createblog");
 });
 
 app.use(express.static("public/css/"));
