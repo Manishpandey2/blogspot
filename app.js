@@ -23,6 +23,13 @@ app.post("/createblog", (req, res) => {
   console.log(req.body);
   res.json({ message: "data submitted" });
 });
+app.get("/register", (req, res) => {
+  res.render("auth/register");
+});
+
+app.get("/login", (req, res) => {
+  res.render("auth/login");
+});
 const PORT = 3000;
 app.listen(PORT, () => {
   console.log(`project has been started at port no ${PORT}`);
