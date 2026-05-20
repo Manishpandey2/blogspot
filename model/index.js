@@ -1,4 +1,4 @@
-const { Sequelize } = require("sequelize");
+const { Sequelize, DataTypes } = require("sequelize");
 const dbConfig = require("../config/dbConfig");
 const { dbname, user, password, host, dialect, pool } = dbConfig;
 const sequelize = new Sequelize(dbname, user, password, {
@@ -20,6 +20,7 @@ db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
+db.users = require("./userModel")(sequelize, DataTypes);
 db.sequelize.sync({ force: false }).then(() => {
   console.log("Sycned done");
 });
