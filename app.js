@@ -1,5 +1,8 @@
 const express = require("express");
 require("dotenv").config();
+const { users } = require("./model/index");
+const bcrypt = require("bcrypt");
+
 require("./model/index");
 const app = express();
 app.set("view engine", "ejs");
@@ -31,7 +34,7 @@ app.get("/register", (req, res) => {
 app.get("/login", (req, res) => {
   res.render("auth/login");
 });
-app.post("/register", (req, res) => {
+app.post("/register", async (req, res) => {
   try {
     const { firstName, lastName, userName, email, password } = req.body;
     if (!firstName || !lastName || !userName || !email || !password) {
@@ -39,6 +42,26 @@ app.post("/register", (req, res) => {
         message: "All the fields are requried",
       });
     }
+    const existingUser = await users.findOne({
+      where: {
+        email: email,
+      },
+    });
+    if (existingUser) {
+      return res.status(400).json({
+        message: "user already registered with this eamil address",
+      });
+    }
+    const newUser = await users.create({
+      firstName,
+      lastName,
+      userName,
+      email,
+      password: bcrypt.hashSync(password, 10),
+    });
+    res.status(200).json({
+      message: "user created ",
+    });
   } catch (error) {
     console.log(error);
     res.status(400).json({
