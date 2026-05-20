@@ -1,8 +1,10 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const dbConfig = require("../config/dbConfig");
-const { dbname, user, password, host, dialect, pool } = dbConfig;
+const blogModel = require("./blogModel");
+const { dbname, user, password, host, port, dialect, pool } = dbConfig;
 const sequelize = new Sequelize(dbname, user, password, {
   host,
+  port,
   dialect,
   pool,
 });
@@ -20,6 +22,7 @@ db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
+db.blogs = blogModel(sequelize, DataTypes);
 db.users = require("./userModel")(sequelize, DataTypes);
 db.sequelize.sync({ force: false }).then(() => {
   console.log("Sycned done");
