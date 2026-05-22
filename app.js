@@ -1,6 +1,6 @@
 const express = require("express");
 require("dotenv").config();
-const { users } = require("./model/index");
+const { users, blogs } = require("./model/index");
 const bcrypt = require("bcrypt");
 const { where } = require("sequelize");
 
@@ -24,9 +24,30 @@ app.get("/createblog", (req, res) => {
   res.render("createblog");
 });
 
-app.post("/createblog", (req, res) => {
-  console.log(req.body);
-  res.json({ message: "data submitted" });
+app.post("/createblog", async (req, res) => {
+  try {
+    const { title, subtitle, description, image } = req.body;
+    if (!title || !subtitle || !description || !image) {
+      return res.status(400).json({
+        message: "All the fields are required",
+      });
+    }
+    const blog = await blogs.create({
+      title,
+      subtitle,
+      description,
+      image,
+    });
+
+    return res.status(201).json({
+      message: "Blog published",
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: "Server error",
+    });
+  }
 });
 app.get("/register", (req, res) => {
   res.render("auth/register");
