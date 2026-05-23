@@ -16,8 +16,15 @@ app.get("/", (req, res) => {
 app.get("/about", (req, res) => {
   res.render("about");
 });
-app.get("/blogs", (req, res) => {
-  res.render("blogs");
+app.get("/blogs", async (req, res) => {
+  try {
+    const allBlogs = await blogs.findAll();
+
+    res.render("blogs", { blogs: allBlogs });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Error loading BLog" });
+  }
 });
 
 app.get("/createblog", (req, res) => {
