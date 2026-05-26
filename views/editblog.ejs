@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Create Blog</title>
+    <link rel="stylesheet" href="/createblog.css">
+    <link rel="stylesheet" href="/home.css">
+  
+</head>
+
+<body>
+    <%- include("./components/navbar") %>   
+
+  <div class="container">
+
+    <h1>Edit Blog</h1>
+
+    <form action="/editblog" method="POST" enctype="multipart/form-data">
+
+      <!-- Title -->
+
+      <div class="form-group">
+        <label for="title">Blog Title</label>
+
+        <input
+          type="text"
+          id="title"
+          value="<%- blog.title %>"
+          name="title"
+          placeholder="Enter blog title"
+          required
+        />
+      </div>
+
+      <!-- Subtitle -->
+
+      <div class="form-group">
+        <label for="subtitle">Subtitle</label>
+
+        <input
+          type="text"
+          id="subtitle"
+          value="<%- blog.subtitle %>"
+          name="subtitle"
+          placeholder="Enter blog subtitle"
+          required
+        />
+      </div>
+
+      <!-- Description -->
+
+      <div class="form-group">
+        <label for="description">Description</label>
+
+        <textarea
+          id="description"
+          name="description"
+          placeholder="Write your blog description..."
+          required
+        ><%- blog.description %></textarea>
+      </div>
+      <!-- image -->
+<div class="form-group">
+  <label for="image">Current Image</label>
+
+  <img 
+    src="http://localhost:3000/<%- blog.image %>" 
+    alt="Blog Image"
+    style="width:150px; height:auto; margin-bottom:10px; border-radius:10px;"
+  />
+</div>
+
+<div class="form-group">
+  <label for="image">Change Image</label>
+
+  <input
+    type="file"
+    id="image"
+    name="image"
+    required
+  />
+</div>  
+     
+      <!-- Button -->
+
+      <button type="submit" class="submit-btn">
+        Update Blog
+      </button>
+
+    </form>
+
+  </div>
+
+</body>
+</html>

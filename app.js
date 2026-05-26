@@ -158,6 +158,12 @@ app.post("/login", async (req, res) => {
     });
   }
 });
+app.get("/editblog/:id", async (req, res) => {
+  const id = req.params.id;
+  const blog = await blogs.findByPk(id);
+  console.log(blog);
+  res.render("editblog", { blog: blog });
+});
 const PORT = 3000;
 app.use(express.static("storage/"));
 app.listen(PORT, () => {
