@@ -135,6 +135,7 @@ app.post("/login", async (req, res) => {
   }
 });
 const PORT = 3000;
+app.use(express.static("storage/"));
 app.listen(PORT, () => {
   console.log(`project has been started at port no ${PORT}`);
 });
