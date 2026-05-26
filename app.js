@@ -45,7 +45,7 @@ app.post("/createblog", upload.single("image"), async (req, res) => {
       title,
       subtitle,
       description,
-      image,
+      image: photo.filename,
     });
 
     return res.status(201).json({
