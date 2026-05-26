@@ -63,10 +63,29 @@ app.post("/createblog", upload.single("image"), async (req, res) => {
     });
   }
 });
+app.get("/deleteblog/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    await blogs.destroy({
+      where: {
+        id: id,
+      },
+    });
+    return res.redirect("/admindashboard");
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send({
+      message: "Error deleting blog",
+    });
+  }
+});
 app.get("/register", (req, res) => {
   res.render("auth/register");
 });
-
+app.get("/admindashboard", async (req, res) => {
+  const blog = await blogs.findAll();
+  res.render("admindashboard", { blog });
+});
 app.get("/login", (req, res) => {
   res.render("auth/login");
 });

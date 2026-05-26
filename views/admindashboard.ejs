@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manish Admin Dashboard</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="admindashboard.css">
+
+</head>
+<body>
+
+  <div class="dashboard">
+
+    <aside class="sidebar">
+      <div class="logo">Manish</div>
+
+      <div class="menu">
+        <a href="#" class="active">Dashboard</a>
+        <a href="/blogs">All Blogs</a>
+        <a href="/createblog">Create Blog</a>
+        <a href="#">Users</a>
+        <a href="#">Settings</a>
+        <a href="#">Logout</a>
+      </div>
+    </aside>
+
+    <main class="main">
+
+      <div class="topbar">
+        <h1>Admin Dashboard</h1>
+
+        <button class="create-btn" onclick="location.href='/createblog' ">+ Create New Blog</button>
+      </div>
+
+      <div class="stats">
+
+        <div class="stat-card">
+          <h2>24</h2>
+          <p>Total Blogs</p>
+        </div>
+
+        <div class="stat-card">
+          <h2>1.2K</h2>
+          <p>Total Readers</p>
+        </div>
+
+        <div class="stat-card">
+          <h2>12</h2>
+          <p>Categories</p>
+        </div>
+
+      </div>
+
+      <h2 class="section-title">Recent Blogs</h2>
+<% blog.forEach((blog)=>{ %>
+      <div class="blogs">
+
+        <div class="blog-card">
+          <img src="http://localhost:3000/<%- blog.image %>" alt="blog">
+
+          <div class="blog-content">
+            <span class="category">Technology</span>
+
+            <h3><%- blog.title %></h3>
+
+            <p><%- blog.description %></p>
+
+            <div class="blog-meta">
+              <span><May 26, 2026></span>
+              <span>6 min</span>
+            </div>
+
+            <div class="actions">
+              <button class="btn read" onclick="location.href='/singleblog/<%- blog.id %>'">Read</button>
+              <button class="btn update" onclick="location.href='/editblog/<%- blog.id %>'">Edit</button>
+              <button class="btn delete" onclick="location.href='/deleteblog/<%- blog.id %>'">Delete</button>
+            </div>
+          </div>
+        </div>
+<% }) %>
+
+
+      </div>
+
+    </main>
+
+  </div>
+
+</body>
+</html>
