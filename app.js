@@ -31,7 +31,12 @@ app.get("/blogs", async (req, res) => {
 app.get("/createblog", (req, res) => {
   res.render("createblog");
 });
+app.get("/singleblog/:id", async (req, res) => {
+  const id = req.params.id;
+  const blog = await blogs.findByPk(id);
 
+  res.render("singleblog", { blog });
+});
 app.post("/createblog", upload.single("image"), async (req, res) => {
   try {
     const { title, subtitle, description, image } = req.body;
@@ -47,10 +52,10 @@ app.post("/createblog", upload.single("image"), async (req, res) => {
       description,
       image: photo.filename,
     });
-
-    return res.status(201).json({
-      message: "Blog published",
-    });
+    return res.redirect("blogs");
+    // res.status(201).json({
+    //   message: "Blog published",
+    // });
   } catch (error) {
     console.log(error);
     return res.status(500).json({

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manish</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/singleblog.css">
+  <link rel="stylesheet" href="/home.css">
+
+
+</head>
+<body>
+
+  <%- include("./components/navbar") %>
+
+  <div class="page-top">
+    <a href="/blogs" class="back-btn">← Back to Blogs</a>
+  </div>
+
+  <main class="container">
+
+    <span class="tag">Technology</span>
+    <h1 style="font-size:2.8rem; line-height:1.3; margin:18px 0;"><%- blog.title %></h1>
+
+    <p style="color:#94a3b8; margin-bottom:35px;">
+      Exploring modern tools, AI integration, and the evolving internet experience.
+    </p>
+
+    <div class="author-box">
+      <img src="https://i.pravatar.cc/150?img=12" alt="author">
+
+      <div class="author-info">
+        <h3>Manish Pandey</h3>
+        <p>Published on May 26, 2026 · 6 min read</p>
+      </div>
+    </div>
+
+    <div class="blog-image">
+      <img src="http://localhost:3000/<%- blog.image %>" alt="blog image">
+    </div>
+
+    <div class="blog-content">
+      <p>
+      <%- blog.description %>
+      </p>
+
+    
+    </div>
+
+    <div class="blog-footer">
+      <div class="tags">
+        <span>#Technology</span>
+        <span>#Programming</span>
+        <span>#WebDevelopment</span>
+      </div>
+
+      <button class="share-btn">Share Article</button>
+    </div>
+
+  </main>
+
+<%- include("./components/footer") %>
+
+</body>
+</html>
