@@ -160,9 +160,31 @@ app.post("/login", async (req, res) => {
 });
 app.get("/editblog/:id", async (req, res) => {
   const id = req.params.id;
+
   const blog = await blogs.findByPk(id);
-  console.log(blog);
+
   res.render("editblog", { blog: blog });
+});
+app.post("/editblog/:id", upload.single("image"), async (req, res) => {
+  try {
+    const id = req.params.id;
+    const { title, subtitle, description } = req.body;
+    const photo = req.file;
+
+    const updateData = { title, subtitle, description };
+    if (photo) {
+      updateData.image = photo.filename;
+    }
+
+    const result = await blogs.update(updateData, {
+      where: { id: id },
+    });
+
+    return res.redirect("/admindashboard");
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send("error in update");
+  }
 });
 const PORT = 3000;
 app.use(express.static("storage/"));

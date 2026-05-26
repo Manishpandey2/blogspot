@@ -16,7 +16,7 @@
 
     <h1>Edit Blog</h1>
 
-    <form action="/editblog" method="POST" enctype="multipart/form-data">
+    <form action="/editblog/<%- blog.id %>" method="POST" enctype="multipart/form-data">
 
       <!-- Title -->
 
@@ -84,7 +84,7 @@
      
       <!-- Button -->
 
-      <button type="submit" class="submit-btn">
+      <button type="submit" class="submit-btn" >
         Update Blog
       </button>
 
