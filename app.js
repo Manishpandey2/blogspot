@@ -3,7 +3,8 @@ require("dotenv").config();
 const { users, blogs } = require("./model/index");
 const bcrypt = require("bcrypt");
 const { where } = require("sequelize");
-
+const { multer, storage } = require("./middleware/multerConfig");
+const upload = multer({ storage: storage });
 require("./model/index");
 const app = express();
 app.set("view engine", "ejs");
@@ -31,10 +32,11 @@ app.get("/createblog", (req, res) => {
   res.render("createblog");
 });
 
-app.post("/createblog", async (req, res) => {
+app.post("/createblog", upload.single("image"), async (req, res) => {
   try {
     const { title, subtitle, description, image } = req.body;
-    if (!title || !subtitle || !description || !image) {
+    const photo = req.file;
+    if (!title || !subtitle || !description || !photo) {
       return res.status(400).json({
         message: "All the fields are required",
       });
