@@ -1,3 +1,6 @@
+const { blogs } = require("../model");
+const { multer, storage } = require("../middleware/multerConfig");
+const upload = multer({ storage: storage });
 exports.homePage = (req, res) => {
   res.render("home");
 };
@@ -28,32 +31,33 @@ exports.renderSingleBlog = async (req, res) => {
   res.render("singleblog", { blog });
 };
 
-exports.createBlog = async (req, res) => {
-  try {
-    const { title, subtitle, description, image } = req.body;
-    const photo = req.file;
-    if (!title || !subtitle || !description || !photo) {
-      return res.status(400).json({
-        message: "All the fields are required",
+((exports.createBlog = upload.single("image")),
+  async (req, res) => {
+    try {
+      const { title, subtitle, description, image } = req.body;
+      const photo = req.file;
+      if (!title || !subtitle || !description || !photo) {
+        return res.status(400).json({
+          message: "All the fields are required",
+        });
+      }
+      const blog = await blogs.create({
+        title,
+        subtitle,
+        description,
+        image: photo.filename,
+      });
+      return res.redirect("blogs");
+      // res.status(201).json({
+      //   message: "Blog published",
+      // });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        message: "Server error",
       });
     }
-    const blog = await blogs.create({
-      title,
-      subtitle,
-      description,
-      image: photo.filename,
-    });
-    return res.redirect("blogs");
-    // res.status(201).json({
-    //   message: "Blog published",
-    // });
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json({
-      message: "Server error",
-    });
-  }
-};
+  });
 
 exports.renderDelete = async (req, res) => {
   try {
@@ -80,24 +84,25 @@ exports.renderEditBlog = async (req, res) => {
   res.render("editblog", { blog: blog });
 };
 
-exports.editBlog = async (req, res) => {
-  try {
-    const id = req.params.id;
-    const { title, subtitle, description } = req.body;
-    const photo = req.file;
+((exports.editBlog = upload.single("image")),
+  async (req, res) => {
+    try {
+      const id = req.params.id;
+      const { title, subtitle, description } = req.body;
+      const photo = req.file;
 
-    const updateData = { title, subtitle, description };
-    if (photo) {
-      updateData.image = photo.filename;
+      const updateData = { title, subtitle, description };
+      if (photo) {
+        updateData.image = photo.filename;
+      }
+
+      const result = await blogs.update(updateData, {
+        where: { id: id },
+      });
+
+      return res.redirect("/admindashboard");
+    } catch (error) {
+      console.log(error);
+      return res.status(500).send("error in update");
     }
-
-    const result = await blogs.update(updateData, {
-      where: { id: id },
-    });
-
-    return res.redirect("/admindashboard");
-  } catch (error) {
-    console.log(error);
-    return res.status(500).send("error in update");
-  }
-};
+  });

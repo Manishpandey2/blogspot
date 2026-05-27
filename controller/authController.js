@@ -1,3 +1,5 @@
+const { blogs, users } = require("../model");
+
 exports.renderRegister = (req, res) => {
   res.render("auth/register");
 };
