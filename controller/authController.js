@@ -1,5 +1,6 @@
 const { blogs, users } = require("../model");
-
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 exports.renderRegister = (req, res) => {
   res.render("auth/register");
 };
@@ -74,6 +75,13 @@ exports.userLogin = async (req, res) => {
         message: "wrong password",
       });
     }
+    const token = jwt.sign(
+      { id: user.id, userEmail: user.email },
+      process.env.JWT_SECRETKEY,
+      { expiresIn: "1d" },
+    );
+    res.cookie("token", token);
+
     return res.status(200).json({
       message: "User Logged in",
     });

@@ -13,6 +13,11 @@ const userModel = (sequelize, DataTypes) => {
       allownull: false,
       unique: true,
     },
+    userName: {
+      type: DataTypes.STRING,
+      allownull: false,
+      unique: true,
+    },
     password: {
       type: DataTypes.STRING,
       allownull: false,
