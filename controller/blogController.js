@@ -1,3 +1,4 @@
+const { user } = require("../config/dbConfig");
 const { blogs } = require("../model");
 
 exports.homePage = (req, res) => {
@@ -32,6 +33,7 @@ exports.renderSingleBlog = async (req, res) => {
 
 exports.createBlog = async (req, res) => {
   try {
+    console.log(req.user);
     const { title, subtitle, description, image } = req.body;
     const photo = req.file;
     if (!title || !subtitle || !description || !photo) {

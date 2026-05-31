@@ -69,7 +69,7 @@ exports.userLogin = async (req, res) => {
         message: "user not found with this email",
       });
     }
-    const isMatched = bcrypt.compareSync(password, user.password);
+    const isMatched = await bcrypt.compare(password, user.password);
     if (!isMatched) {
       return res.status(401).json({
         message: "wrong password",
@@ -80,11 +80,16 @@ exports.userLogin = async (req, res) => {
       process.env.JWT_SECRETKEY,
       { expiresIn: "1d" },
     );
-    res.cookie("token", token);
-
-    return res.status(200).json({
-      message: "User Logged in",
+    res.cookie("token", token, {
+      httpOnly: true,
+      sameSite: "strict",
+      maxAge: 24 * 60 * 60 * 1000,
     });
+    // console.log(token);
+    // return res.status(200).json({
+    //   message: "User Logged in",
+    // });
+    res.redirect("/blogs");
   } catch (error) {
     console.log(error);
     res.status(500).json({

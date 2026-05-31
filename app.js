@@ -7,13 +7,15 @@ const { multer, storage } = require("./middleware/multerConfig");
 
 require("./model/index");
 const app = express();
+const cookieParser = require("cookie-parser");
 app.set("view engine", "ejs");
 app.use(express.static("public/css/"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
 const authRoute = require("./routes/authRoutes");
 const blogRoute = require("./routes/blogRoutes");
-
+app.use(cookieParser());
 app.use("", authRoute);
 app.use("", blogRoute);
 
