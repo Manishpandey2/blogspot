@@ -49,7 +49,7 @@ exports.createBlog = async (req, res) => {
       title,
       subtitle,
       description,
-      image: photo.filename,
+      image: process.env.IMG_URL + photo.filename,
       userId: id,
     });
     return res.redirect("blogs");
