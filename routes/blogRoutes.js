@@ -22,10 +22,10 @@ router
   .get(renderCreateBlog)
   .post(isAuthenticated, upload.single("image"), createBlog);
 router.route("/singleblog/:id").get(renderSingleBlog);
-router.route("/deleteblog/:id").get(renderDelete);
+router.route("/deleteblog/:id").get(isAuthenticated, renderDelete);
 router
   .route("/editblog/:id")
   .get(renderEditBlog)
-  .post(upload.single("image"), editBlog);
+  .post(isAuthenticated, upload.single("image"), editBlog);
 
 module.exports = router;

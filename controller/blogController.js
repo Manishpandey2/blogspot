@@ -31,7 +31,7 @@ exports.renderSingleBlog = async (req, res) => {
       model: users,
     },
   });
-  console.log(blog);
+
   res.render("singleblog", { blog });
 };
 
