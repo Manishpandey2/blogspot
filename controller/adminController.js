@@ -1,6 +1,12 @@
 const { blogs } = require("../model");
 
 exports.adminController = async (req, res) => {
-  const data = await blogs.findAll();
+  const userId = req.user.id;
+
+  const data = await blogs.findAll({
+    where: {
+      userId: userId,
+    },
+  });
   res.render("admindashboard", { blog: data });
 };
