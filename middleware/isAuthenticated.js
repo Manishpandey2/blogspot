@@ -14,7 +14,7 @@ exports.isAuthenticated = async (req, res, next) => {
     token,
     process.env.JWT_SECRETKEY,
   );
-  console.log(decryptedResult);
+
   const userExist = await users.findOne({
     where: {
       id: decryptedResult.id,

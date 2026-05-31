@@ -33,7 +33,7 @@ exports.renderSingleBlog = async (req, res) => {
 
 exports.createBlog = async (req, res) => {
   try {
-    console.log(req.user);
+    const { id } = req.user;
     const { title, subtitle, description, image } = req.body;
     const photo = req.file;
     if (!title || !subtitle || !description || !photo) {
@@ -46,6 +46,7 @@ exports.createBlog = async (req, res) => {
       subtitle,
       description,
       image: photo.filename,
+      userId: id,
     });
     return res.redirect("blogs");
     // res.status(201).json({
