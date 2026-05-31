@@ -1,5 +1,5 @@
 const { user } = require("../config/dbConfig");
-const { blogs } = require("../model");
+const { blogs, users } = require("../model");
 
 exports.homePage = (req, res) => {
   res.render("home");
@@ -26,8 +26,12 @@ exports.renderCreateBlog = (req, res) => {
 
 exports.renderSingleBlog = async (req, res) => {
   const id = req.params.id;
-  const blog = await blogs.findByPk(id);
-
+  const blog = await blogs.findByPk(id, {
+    include: {
+      model: users,
+    },
+  });
+  console.log(blog);
   res.render("singleblog", { blog });
 };
 
