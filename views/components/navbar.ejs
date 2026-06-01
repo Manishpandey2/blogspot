@@ -1,12 +1,25 @@
   <nav class="navbar">
     <div class="logo">Manish</div>
-
+   <% if(currentUser){ %>
     <ul class="nav-links">
+
       <li><a href="/">Home</a></li>
-      <li><a href="/blogs">Blogs</a></li>
       <li><a href="/createblog">CreateBlog</a></li>
+      <li><a href="/admindashboard">Dashboard</a></li>
+
+     </ul>
+    <button class="nav-btn" onclick="location.href='/logout' ">Logout</button>
+
+   <% }else{ %>
+    <ul class="nav-links">
+
+     <li><a href="/">Home</a></li>
+           <li><a href="/blogs">Blogs</a></li>
       <li><a href="/about">About</a></li>
-    </ul>
+     </ul>
+    
 
     <button class="nav-btn" onclick="location.href='/login' ">Login</button>
+   <% } %>
+
   </nav>

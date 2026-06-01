@@ -19,13 +19,13 @@ router.route("/about").get(aboutPage);
 router.route("/blogs").get(renderBlogs);
 router
   .route("/createblog")
-  .get(renderCreateBlog)
+  .get(isAuthenticated, renderCreateBlog)
   .post(isAuthenticated, upload.single("image"), createBlog);
 router.route("/singleblog/:id").get(renderSingleBlog);
 router.route("/deleteblog/:id").get(isAuthenticated, renderDelete);
 router
   .route("/editblog/:id")
-  .get(renderEditBlog)
+  .get(isAuthenticated, renderEditBlog)
   .post(isAuthenticated, upload.single("image"), editBlog);
 
 module.exports = router;

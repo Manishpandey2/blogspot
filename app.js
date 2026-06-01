@@ -17,6 +17,10 @@ const authRoute = require("./routes/authRoutes");
 const blogRoute = require("./routes/blogRoutes");
 const adminRoute = require("./routes/adminRoutes");
 app.use(cookieParser());
+app.use((req, res, next) => {
+  res.locals.currentUser = req.cookies.token;
+  next();
+});
 app.use("", authRoute);
 app.use("", blogRoute);
 app.use("", adminRoute);
