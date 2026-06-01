@@ -1,6 +1,6 @@
 const { user } = require("../config/dbConfig");
 const { blogs, users } = require("../model");
-
+const fs = require("fs");
 exports.homePage = (req, res) => {
   res.render("home");
 };
@@ -93,11 +93,24 @@ exports.editBlog = async (req, res) => {
   try {
     const id = req.params.id;
     const { title, subtitle, description } = req.body;
-    const photo = req.file;
 
+    const olddata = await blogs.findByPk(id);
+    let fileName;
     const updateData = { title, subtitle, description };
-    if (photo) {
-      updateData.image = photo.filename;
+    if (req.file) {
+      const oldPath = olddata.image;
+      const lengthofUnWanted = "http://localhost:3000/".length;
+      const fileNameInStorageFolder = oldPath.slice(lengthofUnWanted);
+      fs.unlink("storage/" + fileNameInStorageFolder, (err) => {
+        if (err) {
+          console.log("Error while deleting file from server", err);
+        } else {
+          console.log("File Deleted Successfully");
+        }
+      });
+      updateData.image = process.env.IMG_URL + req.file.filename;
+    } else {
+      updateData.image = olddata.image;
     }
 
     const result = await blogs.update(updateData, {
