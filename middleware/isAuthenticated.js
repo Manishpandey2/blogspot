@@ -7,7 +7,7 @@ exports.isAuthenticated = async (req, res, next) => {
   const token = req.cookies.token;
 
   if (!token) {
-    return res.send("You must Logged In");
+    return res.redirect("/login");
   }
 
   const decryptedResult = await promisify(jwt.verify)(
