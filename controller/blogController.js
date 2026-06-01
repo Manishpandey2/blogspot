@@ -67,11 +67,23 @@ exports.createBlog = async (req, res) => {
 exports.renderDelete = async (req, res) => {
   try {
     const id = req.params.id;
+    const oldata = await blogs.findByPk(id);
+    const oldPath = oldata.image;
+    const oldPathLength = process.env.IMG_URL.length;
+    const fileNameInStorage = oldPath.slice(oldPathLength);
+    fs.unlink("storage/" + fileNameInStorage, (err) => {
+      if (err) {
+        console.log("Error while deleting file", err);
+      } else {
+        console.log("File Deleting Successfully");
+      }
+    });
     await blogs.destroy({
       where: {
         id: id,
       },
     });
+
     return res.redirect("/admindashboard");
   } catch (error) {
     console.log(error);
