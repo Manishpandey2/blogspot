@@ -102,3 +102,7 @@ exports.logout = (req, res) => {
   res.clearCookie("token");
   res.redirect("/");
 };
+
+exports.getForgotPassword = (req, res) => {
+  res.render("auth/forgotPassword");
+};
