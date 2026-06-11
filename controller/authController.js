@@ -1,6 +1,8 @@
 const { blogs, users } = require("../model");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const nodemailer = require("nodemailer");
+const sendEmail = require("../services/sendOtp");
 exports.renderRegister = (req, res) => {
   res.render("auth/register");
 };
@@ -105,4 +107,34 @@ exports.logout = (req, res) => {
 
 exports.getForgotPassword = (req, res) => {
   res.render("auth/forgotPassword");
+};
+
+exports.postForgotPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+    if (!email) {
+      return res.send("please provide email");
+    }
+
+    const existingUser = await users.findOne({
+      where: {
+        email: email,
+      },
+    });
+    if (!existingUser) {
+      return res.status(400).send("invalid email address");
+    }
+    const OTP = Math.floor(100000 + Math.random() * 900000);
+    await sendEmail({
+      email: email,
+      subject: "Forgot Password OTP",
+      otp: OTP,
+    });
+    existingUser.otp = OTP;
+    existingUser.otpExpiry = Date.now();
+    existingUser.save();
+  } catch (error) {
+    console.log(error);
+    res.status(500).sen("Server Error");
+  }
 };

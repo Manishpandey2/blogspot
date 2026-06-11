@@ -22,6 +22,14 @@ const userModel = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allownull: false,
     },
+    otp: {
+      type: DataTypes.STRING,
+      allownull: true,
+    },
+    otpExpiry: {
+      type: DataTypes.DATE,
+      allownull: true,
+    },
   });
   return user;
 };
