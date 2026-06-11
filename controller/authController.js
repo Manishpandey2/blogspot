@@ -125,16 +125,20 @@ exports.postForgotPassword = async (req, res) => {
       return res.status(400).send("invalid email address");
     }
     const OTP = Math.floor(100000 + Math.random() * 900000);
+    existingUser.otp = OTP;
+    existingUser.otpExpiry = Date.now();
+    existingUser.save();
     await sendEmail({
       email: email,
       subject: "Forgot Password OTP",
       otp: OTP,
     });
-    existingUser.otp = OTP;
-    existingUser.otpExpiry = Date.now();
-    existingUser.save();
+    res.redirect("/verifyOtp");
   } catch (error) {
     console.log(error);
     res.status(500).sen("Server Error");
   }
+};
+exports.getverifyOtp = (req, res) => {
+  res.render("auth/verifyOtp");
 };
