@@ -133,12 +133,44 @@ exports.postForgotPassword = async (req, res) => {
       subject: "Forgot Password OTP",
       otp: OTP,
     });
-    res.redirect("/verifyOtp");
+    res.redirect("/verifyOtp?email=" + email);
   } catch (error) {
     console.log(error);
     res.status(500).sen("Server Error");
   }
 };
 exports.getverifyOtp = (req, res) => {
-  res.render("auth/verifyOtp");
+  const email = req.query.email;
+
+  res.render("auth/verifyOtp", { email: email });
+};
+exports.verifyOtp = async (req, res) => {
+  try {
+    const otp = req.body.otp;
+    const email = req.params.id;
+
+    if (!otp || !email) {
+      return res.send("You need to provide email and otp");
+    }
+    const user = await users.findOne({
+      where: {
+        email: email,
+        otp: otp,
+      },
+    });
+    if (!user) {
+      res.send("Invalid Otp");
+    } else {
+      const currentTime = Date.now();
+      const expiryTime = user.otpExpiry;
+      if (currentTime - expiryTime >= 2 * 60 * 1000) {
+        res.send("Your Otp is expired");
+      } else {
+        res.send("OTP verified");
+      }
+    }
+  } catch (error) {
+    console.log(error);
+    res.send("Server Error");
+  }
 };
