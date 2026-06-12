@@ -164,13 +164,21 @@ exports.verifyOtp = async (req, res) => {
       const currentTime = Date.now();
       const expiryTime = user.otpExpiry;
       if (currentTime - expiryTime >= 2 * 60 * 1000) {
+        user.otp = null;
+        user.otpExpiry = null;
+        await user.save();
         res.send("Your Otp is expired");
       } else {
-        res.send("OTP verified");
+        // res.send("OTP verified");
+        res.redirect("/changePassword");
       }
     }
   } catch (error) {
     console.log(error);
     res.send("Server Error");
   }
+};
+
+exports.getChangePassword = (req, res) => {
+  res.render("auth/changePassword");
 };
