@@ -3,9 +3,6 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
 const sendEmail = require("../services/sendOtp");
-exports.renderRegister = (req, res) => {
-  res.render("auth/register");
-};
 
 exports.renderadminDashboard = async (req, res) => {
   const blog = await blogs.findAll();
@@ -15,14 +12,20 @@ exports.renderadminDashboard = async (req, res) => {
 exports.renderLogin = (req, res) => {
   res.render("auth/login");
 };
-
+exports.renderRegister = (req, res) => {
+  const error = req.flash("error");
+  const success = req.flash("success");
+  res.render("auth/register", { error, success });
+};
 exports.userRegister = async (req, res) => {
   try {
     const { firstName, lastName, userName, email, password } = req.body;
     if (!firstName || !lastName || !userName || !email || !password) {
-      return res.status(200).json({
-        message: "All the fields are requried",
-      });
+      // return res.status(200).json({
+      //   message: "All the fields are requried",
+      // });
+      req.flash("error", "All The Fields are required");
+      return res.redirect("/register");
     }
     const existingUser = await users.findOne({
       where: {
@@ -30,9 +33,11 @@ exports.userRegister = async (req, res) => {
       },
     });
     if (existingUser) {
-      return res.status(400).json({
-        message: "user already registered with this eamil address",
-      });
+      // return res.status(400).json({
+      //   message: "user already registered with this eamil address",
+      // });
+      req.flash("error", "User already registered with this email address");
+      return res.redirect("/register");
     }
     const newUser = await users.create({
       firstName,
@@ -44,12 +49,15 @@ exports.userRegister = async (req, res) => {
     // res.status(200).json({
     //   message: "user created ",
     // });
-    res.redirect("/login");
+    req.flash("success", "User Registration Complete");
+    return res.redirect("/login");
   } catch (error) {
     console.log(error);
-    res.status(400).json({
-      message: "unable to create user",
-    });
+    // res.status(400).json({
+    //   message: "unable to create user",
+    // });
+    req.flash("error", "Unable to Register User");
+    return res.redirect("/register");
   }
 };
 
