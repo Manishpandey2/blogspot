@@ -237,12 +237,12 @@ exports.handleChangePassword = async (req, res) => {
     if (!email || !newPassword || !newConfirmPassword) {
       // return res.send("Please provide email, newPassword and ConfirmPassowrd");
       req.flash("error", "All the feilds are required");
-      return res.redirect("/changePassword");
+      return res.redirect(`/changePassword?email=${email}`);
     }
     if (newPassword !== newConfirmPassword) {
       // return res.send("Your password and confirm password is not matching");
       req.flash("error", "password and confirm password do not match");
-      return res.redirect("/changePassword");
+      return res.redirect(`/changePassword?email=${email}`);
     }
     const user = await users.findOne({
       where: {
@@ -252,10 +252,12 @@ exports.handleChangePassword = async (req, res) => {
     if (!user) {
       // return res.send("User do not found");
       req.flash("error", "User is not Found");
-      return res.redirect("/changePassword");
+      return res.redirect(`/changePassword?email=${email}`);
     }
     if (!user.isOtpverified) {
-      return res.send("Please verify OTP at first");
+      // return res.send("Please verify OTP at first");
+      req.flash("error", "You are Late Do it within 2min");
+      res.redirect(`/changePassword?email=${email}`);
     }
     user.password = bcrypt.hashSync(newPassword, 8);
     user.otp = null;
@@ -268,6 +270,6 @@ exports.handleChangePassword = async (req, res) => {
     console.log(error);
     // res.status(500).send("Server Error");
     req.flash("error", "Server Error");
-    return res.redirect("/changePassword");
+    return res.redirect(`/changePassword?email=${email}`);
   }
 };
