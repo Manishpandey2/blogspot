@@ -186,7 +186,7 @@ exports.verifyOtp = async (req, res) => {
     if (!otp || !email) {
       // return res.send("You need to provide email and otp");
       req.flash("error", "You need to provide otp and email");
-      return res.redirect("/verifyOtp");
+      return res.redirect(`/verifyOtp?email=${email}`);
     }
     const user = await users.findOne({
       where: {
@@ -197,7 +197,7 @@ exports.verifyOtp = async (req, res) => {
     if (!user) {
       // return res.send("Invalid Otp");
       req.flash("error", "Invalide OTP");
-      return res.redirect("/verifyOtp");
+      return res.redirect(`/verifyOtp?email=${email}`);
     } else {
       const currentTime = Date.now();
       const expiryTime = user.otpExpiry;
@@ -207,7 +207,7 @@ exports.verifyOtp = async (req, res) => {
         await user.save();
         // res.send("Your Otp is expired");
         req.flash("error", "Your OTP is expired");
-        return res.redirect("/verifyOtp");
+        return res.redirect(`/verifyOtp?email=${email}`);
       } else {
         // res.send("OTP verified");
         user.isOtpverified = true;
@@ -220,7 +220,7 @@ exports.verifyOtp = async (req, res) => {
     console.log(error);
     // res.send("Server Error");
     req.flash("error", "Server Errror");
-    return res.redirect("/verifyOtp");
+    return res.redirect(`/verifyOtp?email=${email}`);
   }
 };
 
