@@ -6,7 +6,27 @@
       box-sizing:border-box;
       font-family:Arial, Helvetica, sans-serif;
     }
+/* alert style start */
+.alert {
+  padding: 12px 16px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+}
 
+.alert.success {
+  background-color: #e6ffed;
+  color: #1a7f37;
+  border: 1px solid #2ecc71;
+}
+
+.alert.error {
+  background-color: #ffe6e6;
+  color: #c0392b;
+  border: 1px solid #e74c3c;
+}
+/* alert style end  */
     body{
       background:#f5f5f5;
     }
