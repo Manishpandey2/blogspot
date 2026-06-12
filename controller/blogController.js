@@ -2,7 +2,9 @@ const { user } = require("../config/dbConfig");
 const { blogs, users } = require("../model");
 const fs = require("fs");
 exports.homePage = (req, res) => {
-  res.render("home");
+  const error = req.flash("error");
+  const success = req.flash("success");
+  res.render("home", { error, success });
 };
 
 exports.aboutPage = (req, res) => {
