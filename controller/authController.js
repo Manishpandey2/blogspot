@@ -127,7 +127,8 @@ exports.postForgotPassword = async (req, res) => {
     const OTP = Math.floor(100000 + Math.random() * 900000);
     existingUser.otp = OTP;
     existingUser.otpExpiry = Date.now();
-    existingUser.save();
+    existingUser.isOtpverified = false;
+    await existingUser.save();
     await sendEmail({
       email: email,
       subject: "Forgot Password OTP",
@@ -136,7 +137,7 @@ exports.postForgotPassword = async (req, res) => {
     res.redirect("/verifyOtp?email=" + email);
   } catch (error) {
     console.log(error);
-    res.status(500).sen("Server Error");
+    res.status(500).send("Server Error");
   }
 };
 exports.getverifyOtp = (req, res) => {
@@ -159,7 +160,7 @@ exports.verifyOtp = async (req, res) => {
       },
     });
     if (!user) {
-      res.send("Invalid Otp");
+      return res.send("Invalid Otp");
     } else {
       const currentTime = Date.now();
       const expiryTime = user.otpExpiry;
@@ -170,7 +171,9 @@ exports.verifyOtp = async (req, res) => {
         res.send("Your Otp is expired");
       } else {
         // res.send("OTP verified");
-        res.redirect("/changePassword");
+        user.isOtpverified = true;
+        await user.save();
+        res.redirect("/changePassword?email=" + email);
       }
     }
   } catch (error) {
@@ -180,5 +183,38 @@ exports.verifyOtp = async (req, res) => {
 };
 
 exports.getChangePassword = (req, res) => {
-  res.render("auth/changePassword");
+  const email = req.query.email;
+  res.render("auth/changePassword", { email: email });
+};
+
+exports.handleChangePassword = async (req, res) => {
+  try {
+    const { email, newPassword, newConfirmPassword } = req.body;
+    if (!email || !newPassword || !newConfirmPassword) {
+      return res.send("Please provide email, newPassword and ConfirmPassowrd");
+    }
+    if (newPassword !== newConfirmPassword) {
+      return res.send("Your password and confirm password is not matching");
+    }
+    const user = await users.findOne({
+      where: {
+        email: email,
+      },
+    });
+    if (!user) {
+      return res.send("User do not found");
+    }
+    if (!user.isOtpverified) {
+      return res.send("Please verify OTP at first");
+    }
+    user.password = bcrypt.hashSync(newPassword, 8);
+    user.otp = null;
+    user.otpExpiry = null;
+    user.isOtpverified = false;
+    await user.save();
+    return res.redirect("/login");
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Server Error");
+  }
 };

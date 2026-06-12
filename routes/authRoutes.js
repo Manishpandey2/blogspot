@@ -10,6 +10,7 @@ const {
   getverifyOtp,
   verifyOtp,
   getChangePassword,
+  handleChangePassword,
 } = require("../controller/authController");
 
 const router = require("express").Router();
@@ -20,6 +21,9 @@ router.route("/logout").get(logout);
 router.route("/forgotPassword").get(getForgotPassword).post(postForgotPassword);
 router.route("/verifyOtp").get(getverifyOtp);
 router.route("/verifyOtp/:id").post(verifyOtp);
-router.route("/changePassword").get(getChangePassword);
+router
+  .route("/changePassword")
+  .get(getChangePassword)
+  .post(handleChangePassword);
 
 module.exports = router;

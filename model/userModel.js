@@ -30,6 +30,10 @@ const userModel = (sequelize, DataTypes) => {
       type: DataTypes.DATE,
       allownull: true,
     },
+    isOtpverified: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
   });
   return user;
 };
